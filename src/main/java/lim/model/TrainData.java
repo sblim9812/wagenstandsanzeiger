@@ -16,6 +16,8 @@ public class TrainData {
 
     @XmlElementWrapper(name = "tracks")
     @XmlElement(name = "track")
+    @Getter
+    @Setter
     private List<Track> tracks;
 }
 
