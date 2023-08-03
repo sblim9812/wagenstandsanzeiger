@@ -10,10 +10,11 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Waggons {
+public class Section {
+    @XmlElementWrapper(name = "sections")
+    @XmlElement(name = "identifier")
     @Getter
     @Setter
-    @XmlElementWrapper(name = "waggons")
-    @XmlElement(name = "waggon")
-    private List<Waggon> waggons;
+    private List<String> identifiers;
+
 }
