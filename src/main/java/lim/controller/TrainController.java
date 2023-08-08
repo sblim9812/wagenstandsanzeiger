@@ -1,6 +1,5 @@
 package lim.controller;
 
-
 import lim.jaxbconfig.JAXBContextProvider;
 import lim.model.*;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Objects;
 
+import static lim.jaxbconfig.JAXBContextProvider.openXmlFile;
+
 @RequiredArgsConstructor
 @RestController
 public class TrainController {
     @GetMapping("/station/{ril100}/train/{trainNumber}/waggon/{number}")
     public ResponseEntity<List<String>> getSections(@PathVariable String ril100, @PathVariable int trainNumber, @PathVariable Integer number) {
-        TrainData trainData = JAXBContextProvider.parseTrainData();
+        TrainData trainData = openXmlFile(ril100);
 
         if (trainData == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
