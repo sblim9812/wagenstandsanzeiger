@@ -8,7 +8,6 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Track {
-
         @XmlElementWrapper(name = "trains")
         @XmlElement(name = "train")
         @Getter

@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static lim.jaxbconfig.JAXBContextProvider.openXmlFile;
@@ -18,7 +20,9 @@ import static lim.jaxbconfig.JAXBContextProvider.openXmlFile;
 @RestController
 public class TrainController {
     @GetMapping("/station/{ril100}/train/{trainNumber}/waggon/{number}")
-    public ResponseEntity<List<String>> getSections(@PathVariable String ril100, @PathVariable int trainNumber, @PathVariable Integer number) {
+    public ResponseEntity<Map<String, List<String>>> getSections(@PathVariable String ril100, @PathVariable int trainNumber
+            , @PathVariable(required = false) Integer number) {
+
         TrainData trainData = openXmlFile(ril100);
 
         if (trainData == null) {
@@ -30,13 +34,15 @@ public class TrainController {
                 .flatMap(track -> track.getTrains().stream())
                 .filter(train -> trainNumber == train.getTrainNumbers().getTrainNumber())
                 .flatMap(train -> train.getWaggons().stream())
-                .filter(waggon -> Objects.equals(number, waggon.getNumber()))
+                .filter(waggon -> number == null || Objects.equals(number, waggon.getNumber()))
                 .map(Waggon::getSections)
                 .findFirst()
                 .orElse(null);
 
         if (sections != null) {
-            return ResponseEntity.ok(sections);
+            Map<String, List<String>> response = new HashMap<>();
+            response.put("sections", sections);
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();
         }
