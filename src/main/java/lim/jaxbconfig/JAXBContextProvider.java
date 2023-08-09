@@ -2,15 +2,9 @@ package lim.jaxbconfig;
 
 import lim.model.TrainData;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.xml.bind.*;
+import java.io.*;
 import java.net.URL;
-import java.util.List;
 
 public class JAXBContextProvider {
     public static TrainData openXmlFile(String ril100) {
